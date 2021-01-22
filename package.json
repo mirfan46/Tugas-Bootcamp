@@ -1,0 +1,23 @@
+{
+  "name": "Bootcamp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirfan46/Tugas-Bootcamp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mirfan46/Tugas-Bootcamp/issues"
+  },
+  "homepage": "https://github.com/mirfan46/Tugas-Bootcamp#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
