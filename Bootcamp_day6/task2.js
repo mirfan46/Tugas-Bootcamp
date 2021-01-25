@@ -57,3 +57,33 @@ program
   });
 
 program.run();
+
+// Penjumlahan
+function penjumlahan(num) {
+  return num.reduce(function (accumulator, currentValue) {
+    return accumulator + currentValue;
+  });
+}
+
+// pengurangan
+function pengurangan(num) {
+  return num.reduce(function (accumulator, currentValue) {
+    return accumulator - currentValue;
+  });
+}
+
+// perkalian
+function perkalian(num) {
+  return num.reduce(function (accumulator, currentValue) {
+    return accumulator * currentValue;
+  });
+}
+
+// pembagian
+function pembagian(num) {
+  return num.reduce(function (accumulator, currentValue) {
+    return accumulator / currentValue;
+  });
+}
+
+module.exports = { penjumlahan, pengurangan, perkalian, pembagian };

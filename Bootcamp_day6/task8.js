@@ -1,56 +1,22 @@
+const axios = require("axios");
 const cheerio = require("cheerio");
-const axios = require("axios").default;
+let title, url;
 
-const fethHtml = async (url) => {
-  try {
-    const { data } = await axios.get(url);
-    return data;
-  } catch {
-    console.error(
-      `ERROR: An error occurred while trying to fetch the URL: ${url}`
-    );
-  }
-};
+getContent = async (url) => {
+  axios
+    .get(url)
+    .then((response) => {
+      const html = response.data;
+      const $ = cheerio.load(html);
 
-const extractDeal = (selector) => {
-  const title = selector
-    .find(".headline ga--headline clearfix")
-    .find("div[class='headline__big__box'] > h2[class='headline__big__title']")
-    .text()
-    .trim();
-
-  const link = selector.attr("href").trim();
-
-  return {
-    title,
-    link,
-  };
-};
-
-const scrapSteam = async () => {
-  const kompasUrl = "https://www.kompas.com/";
-
-  const html = await fethHtml(kompasUrl);
-
-  const selector = cheerio.load(html);
-
-  const searchResults = selector("body").find(
-    "#search_result_container > #search_resultsRows > a"
-  );
-
-  const deals = searchResults
-    .map((idx, el) => {
-      const elementSelector = selector(el);
-      return extractDeal(elementSelector);
+      console.log("");
+      title = $(".headline__thumb__item").text().trim();
+      console.log(title);
     })
-    .get();
-
-  return deals;
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
-const hasil = async () => {
-  const result = await scrapSteam();
-  console.log(result);
-};
-
-hasil();
+//execute query
+getContent("https://www.kompas.com");
