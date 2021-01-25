@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/mirfan46/Tugas-Bootcamp#readme",
   "dependencies": {
-    "axios": "^0.21.1"
+    "@caporal/core": "^2.0.2",
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5"
   }
 }
