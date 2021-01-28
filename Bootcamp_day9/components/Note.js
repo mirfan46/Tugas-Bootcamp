@@ -10,7 +10,7 @@ export default class Main extends React.Component {
         <Text style={styles.noteText}>{this.props.val.note}</Text>
 
         <TouchableOpacity
-          onPress={this.props.deleteMethod}
+          onPress={this.props.deleteMothod}
           style={styles.noteDelete}>
           <Text style={styles.noteDeleteText}>Delete</Text>
         </TouchableOpacity>
@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
   noteText: {
     paddingLeft: 20,
     borderLeftWidth: 10,
-    borderLeftColor: '#e91e63',
   },
   noteDelete: {
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2980b9',
+    borderRadius: 20,
     padding: 10,
     top: 10,
     bottom: 10,

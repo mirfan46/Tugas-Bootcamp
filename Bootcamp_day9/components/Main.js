@@ -18,16 +18,15 @@ export default class Main extends React.Component {
     };
   }
   render() {
-    const {noteArray, noteText} = this.state;
-    let notes = noteArray.map((val, key) => {
-      return (
+    let notes = this.state.noteArray.map((val, key) => {
+      return [
         <Note
           key={key}
           keyval={key}
           val={val}
           deleteMothod={() => this.deleteNote(key)}
-        />
-      );
+        />,
+      ];
     });
 
     return (
@@ -45,7 +44,7 @@ export default class Main extends React.Component {
           <TextInput
             style={styles.textInput}
             onChangeText={(noteText) => this.setState({noteText})}
-            value={noteText}
+            value={this.state.noteText}
             placeholder="Enter To Do"
             placeholderTextColor="#e9c46a"></TextInput>
         </View>
@@ -54,7 +53,7 @@ export default class Main extends React.Component {
         <TouchableOpacity
           onPress={this.addNote.bind(this)}
           style={styles.addButton}>
-          <Text style={styles.addButtonText}>+</Text>
+          <Text style={styles.addButtonText}>Add</Text>
         </TouchableOpacity>
       </View>
     );
@@ -112,6 +111,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#252525',
     borderTopWidth: 2,
     borderTopColor: '#f4a261',
+    borderRadius: 20,
   },
   addButton: {
     position: 'absolute',
