@@ -46,7 +46,8 @@ export default class Main extends React.Component {
             onChangeText={(noteText) => this.setState({noteText})}
             value={this.state.noteText}
             placeholder="Enter To Do"
-            placeholderTextColor="#e9c46a"></TextInput>
+            placeholderTextColor="#e9c46a"
+          />
         </View>
 
         {/* Add to do button */}
