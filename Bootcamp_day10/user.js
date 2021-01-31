@@ -109,4 +109,15 @@ export const users = [
     photo: 'http://dummyimage.com/123x125.png/ff4444/ffffff',
     password: 'byp8IKm',
   },
+  {
+    id: 11,
+    first_name: 'Gregor',
+    last_name: 'Dubble',
+    email: 'irfan@gomail.com',
+    gender: 'Genderfluid',
+    slogan: 'brand bricks-and-clicks e-business',
+    jobs: 'Programmer Analyst I',
+    photo: 'http://dummyimage.com/123x125.png/ff4444/ffffff',
+    password: 'irfan',
+  },
 ];

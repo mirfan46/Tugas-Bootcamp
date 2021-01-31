@@ -5,24 +5,49 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  ScrollView,
 } from 'react-native';
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      emailUser: '',
+      passwordUser: '',
+    };
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.textLogin}>Log In</Text>
-        <TextInput style={styles.inputEmail} placeholder={'Email'} />
-        <TextInput
-          style={styles.inputPassword}
-          placeholder={'Password'}
-          secureTextEntry={true}
-        />
-        <TouchableOpacity style={styles.buttonLogIn} onPress={this.onPress}>
-          <Text style={styles.textLogIn}>Log In</Text>
-        </TouchableOpacity>
-        <Text style={styles.textForget}>Forgot your password?</Text>
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.textLogin}>Log In</Text>
+          <TextInput
+            style={styles.inputEmail}
+            placeholder={'Email'}
+            onChangeText={(emailUser) => this.setState({emailUser})}
+            value={this.state.emailUser}
+          />
+          <TextInput
+            style={styles.inputPassword}
+            placeholder={'Password'}
+            secureTextEntry={true}
+            onChangeText={(passwordUser) => this.setState({passwordUser})}
+            value={this.state.passwordUser}
+          />
+          <TouchableOpacity
+            style={styles.buttonLogIn}
+            onPress={() => {
+              this.props.cekLogin(
+                this.state.emailUser,
+                this.state.passwordUser,
+              );
+            }}>
+            <Text style={styles.textLogIn}>Log In</Text>
+          </TouchableOpacity>
+          <Text style={styles.textForget}>Forgot your password?</Text>
+        </View>
+      </ScrollView>
     );
   }
 }

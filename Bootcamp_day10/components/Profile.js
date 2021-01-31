@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
   View,
@@ -10,55 +10,53 @@ import {
   ScrollView,
 } from 'react-native';
 
-class Profile extends Component {
-  render() {
-    return (
-      <ScrollView>
-        <View
-          style={{
-            height: 245,
-            backgroundColor: '#5DB075',
-            zIndex: 2,
-          }}>
-          <View style={styles.header}>
-            <View></View>
-            <Text style={styles.textHeaderProfile}>Profile</Text>
-            <TouchableOpacity>
-              <Text style={styles.textHeaderLogout}>Logout</Text>
-            </TouchableOpacity>
-          </View>
-          <Image
-            style={{alignSelf: 'center'}}
-            source={require('../profile.png')}
-          />
+const Profile = ({userSignInData}) => {
+  let profile = userSignInData.map((user, i) => {
+    return userSignInData[i].email;
+  });
+
+  console.log(profile);
+  return (
+    <ScrollView>
+      <View
+        style={{
+          height: 245,
+          backgroundColor: '#5DB075',
+          zIndex: 2,
+        }}>
+        <View style={styles.header}>
+          <View></View>
+          <Text style={styles.textHeaderProfile}>Profile</Text>
+          <TouchableOpacity>
+            <Text style={styles.textHeaderLogout}>Logout</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.container}>
-          <Text style={{fontSize: 30, fontWeight: 'bold', marginBottom: 8}}>
-            Jhon Julian
-          </Text>
-          <Text style={{fontWeight: 'bold', fontSize: 16, marginBottom: 16}}>
-            Im Superman
-          </Text>
-          <View style={{marginBottom: 34}}>
-            <Text style={{color: '#666666'}}>Slogan</Text>
-            <TextInput style={styles.inputSlogan} placeholder={'Slogan'} />
-          </View>
-          <View>
-            <Text style={{color: '#666666'}}>Jobs</Text>
-            <TextInput style={styles.inputJobs} placeholder={'Jobs'} />
-          </View>
-          <View style={{marginRight: 215}}>
-            <TouchableOpacity
-              style={styles.buttonUpdate}
-              onPress={this.onPress}>
-              <Text style={styles.textUpdate}>Update</Text>
-            </TouchableOpacity>
-          </View>
+        <Image style={{alignSelf: 'center'}} source={{uri: ``}} />
+      </View>
+      <View style={styles.container}>
+        <Text style={{fontSize: 30, fontWeight: 'bold', marginBottom: 8}}>
+          Jhon Julian
+        </Text>
+        <Text style={{fontWeight: 'bold', fontSize: 16, marginBottom: 16}}>
+          Im Superman
+        </Text>
+        <View style={{marginBottom: 34}}>
+          <Text style={{color: '#666666'}}>Slogan</Text>
+          <TextInput style={styles.inputSlogan} placeholder={'Slogan'} />
         </View>
-      </ScrollView>
-    );
-  }
-}
+        <View>
+          <Text style={{color: '#666666'}}>Jobs</Text>
+          <TextInput style={styles.inputJobs} placeholder={'Jobs'} />
+        </View>
+        <View style={{marginRight: 215}}>
+          <TouchableOpacity style={styles.buttonUpdate}>
+            <Text style={styles.textUpdate}>Update</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

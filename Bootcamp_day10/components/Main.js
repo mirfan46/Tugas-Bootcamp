@@ -1,29 +1,38 @@
-import React, {Component} from 'react';
-import {Text, Image, View, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 
-class Main extends Component {
-  render() {
-    return (
+const Main = ({onRouteChange}) => {
+  return (
+    <ScrollView>
       <View style={styles.container}>
         <Image source={require('../logo.png')} />
         <View style={styles.menu}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onRouteChange('login')}>
             <Text style={{marginRight: 100, fontSize: 18, color: '#FFFFFF'}}>
               Login
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onRouteChange('signup')}>
             <Text style={{fontSize: 18, color: '#FFFFFF'}}>Register</Text>
           </TouchableOpacity>
         </View>
       </View>
-    );
-  }
-}
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
+    paddingTop: 100,
+    paddingBottom: 120,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#5DB075',
