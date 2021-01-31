@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   TouchableOpacity,
   View,
@@ -10,12 +10,10 @@ import {
   ScrollView,
 } from 'react-native';
 
-const Profile = ({userSignInData}) => {
-  let profile = userSignInData.map((user, i) => {
-    return userSignInData[i].email;
-  });
+const Profile = ({userSignInData, onRouteChange, update}) => {
+  const [slogan, setSlogan] = useState('');
+  const [jobs, setJobs] = useState('');
 
-  console.log(profile);
   return (
     <ScrollView>
       <View
@@ -27,29 +25,51 @@ const Profile = ({userSignInData}) => {
         <View style={styles.header}>
           <View></View>
           <Text style={styles.textHeaderProfile}>Profile</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onRouteChange('logout')}>
             <Text style={styles.textHeaderLogout}>Logout</Text>
           </TouchableOpacity>
         </View>
-        <Image style={{alignSelf: 'center'}} source={{uri: ``}} />
+        <Image
+          style={{
+            alignSelf: 'center',
+            width: 158,
+            height: 158,
+            borderRadius: 100,
+          }}
+          source={{uri: `https://robohash.org/${userSignInData.photo}`}}
+        />
       </View>
       <View style={styles.container}>
         <Text style={{fontSize: 30, fontWeight: 'bold', marginBottom: 8}}>
-          Jhon Julian
+          {userSignInData.first_name} {userSignInData.last_name}
         </Text>
         <Text style={{fontWeight: 'bold', fontSize: 16, marginBottom: 16}}>
-          Im Superman
+          {userSignInData.gender}
         </Text>
         <View style={{marginBottom: 34}}>
           <Text style={{color: '#666666'}}>Slogan</Text>
-          <TextInput style={styles.inputSlogan} placeholder={'Slogan'} />
+          <TextInput
+            style={styles.inputSlogan}
+            placeholder={'Slogan'}
+            onChangeText={(slogan) => setSlogan(slogan)}
+            value={slogan}
+          />
         </View>
         <View>
           <Text style={{color: '#666666'}}>Jobs</Text>
-          <TextInput style={styles.inputJobs} placeholder={'Jobs'} />
+          <TextInput
+            style={styles.inputJobs}
+            placeholder={'Jobs'}
+            onChangeText={(jobs) => setJobs(jobs)}
+            value={jobs}
+          />
         </View>
         <View style={{marginRight: 215}}>
-          <TouchableOpacity style={styles.buttonUpdate}>
+          <TouchableOpacity
+            style={styles.buttonUpdate}
+            onPress={() => {
+              update(slogan, jobs);
+            }}>
             <Text style={styles.textUpdate}>Update</Text>
           </TouchableOpacity>
         </View>

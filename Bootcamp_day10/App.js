@@ -4,7 +4,7 @@ import Main from './components/Main';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Profile from './components/Profile';
-import {users} from './user';
+import users from './user.json';
 
 class App extends Component {
   constructor(props) {
@@ -12,9 +12,35 @@ class App extends Component {
     this.state = {
       user: users,
       route: 'main',
-      userSignInData: [],
+      userSignInData: {
+        id: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+        gender: '',
+        slogan: '',
+        jobs: '',
+        photo: '',
+        password: '',
+      },
     };
   }
+
+  loadUser = (data) => {
+    this.setState({
+      userSignInData: {
+        id: data.id,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        email: data.email,
+        gender: data.gender,
+        slogan: data.slogan,
+        jobs: data.jobs,
+        photo: data.photo,
+        password: data.password,
+      },
+    });
+  };
 
   onRouteChange = (route) => {
     this.setState({route: route});
@@ -27,20 +53,59 @@ class App extends Component {
     );
 
     if (cekEmail === true && cekPassword === true) {
-      let dataUser = this.state.userSignInData;
-      const filterDataUser = this.state.user.filter((e) => e.email === email);
-      dataUser.push(filterDataUser);
-      this.setState({userSignInData: dataUser});
+      let dataUser = this.state.user.filter((e) => e.email === email);
+      let profile = dataUser[0];
+      this.loadUser(profile);
       this.onRouteChange('profile');
     } else {
       Alert.alert('login gagal');
     }
   };
 
+  register = (name, email, password) => {
+    let dataUser = this.state.user;
+
+    dataUser.push({
+      id: this.state.user.length + 1,
+      first_name: name,
+      last_name: 'Robot',
+      email: email,
+      gender: 'NA',
+      slogan: 'NA',
+      jobs: 'NA',
+      photo: `https://robohash.org/${name}`,
+      password: password,
+    });
+
+    this.setState({
+      user: dataUser,
+    });
+
+    this.onRouteChange('login');
+  };
+
+  update = (slogan, jobs) => {
+    let dataUsers = this.state.user;
+    dataUsers.slogan = slogan;
+    let update = dataUsers.map((e) =>
+      e.id === this.state.userSignInData.id
+        ? {...e, slogan: slogan, jobs: jobs}
+        : e,
+    );
+
+    this.setState({user: update});
+  };
+
   render() {
+    console.log(this.state.user);
     return (
       <View>
         {this.state.route === 'main' ? (
+          <Main onRouteChange={this.onRouteChange} />
+        ) : (
+          <View></View>
+        )}
+        {this.state.route === 'logout' ? (
           <Main onRouteChange={this.onRouteChange} />
         ) : (
           <View></View>
@@ -50,9 +115,17 @@ class App extends Component {
         ) : (
           <View></View>
         )}
-        {this.state.route === 'signup' ? <SignUp /> : <View></View>}
+        {this.state.route === 'signup' ? (
+          <SignUp register={this.register} onRouteChange={this.onRouteChange} />
+        ) : (
+          <View></View>
+        )}
         {this.state.route === 'profile' ? (
-          <Profile userSignInData={this.state.userSignInData} />
+          <Profile
+            userSignInData={this.state.userSignInData}
+            onRouteChange={this.onRouteChange}
+            update={this.update}
+          />
         ) : (
           <View></View>
         )}

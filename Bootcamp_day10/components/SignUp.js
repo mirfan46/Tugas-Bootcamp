@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   TouchableOpacity,
   View,
@@ -7,27 +7,44 @@ import {
   TextInput,
   CheckBox,
   Image,
+  ScrollView,
 } from 'react-native';
 
-class SignUp extends Component {
-  render() {
-    return (
+const SignUp = ({onRouteChange, register}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onRouteChange('main')}>
             <Image source={require('../close.png')} />
           </TouchableOpacity>
           <Text style={styles.textHeaderSignUp}>Sign Up</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onRouteChange('login')}>
             <Text style={styles.textHeaderLogin}>Login</Text>
           </TouchableOpacity>
         </View>
-        <TextInput style={styles.inputName} placeholder={'Name'} />
-        <TextInput style={styles.inputEmail} placeholder={'Email'} />
+        <TextInput
+          style={styles.inputName}
+          placeholder={'Name'}
+          onChangeText={(name) => setName(name)}
+          value={name}
+        />
+        <TextInput
+          style={styles.inputEmail}
+          placeholder={'Email'}
+          onChangeText={(email) => setEmail(email)}
+          value={email}
+        />
         <TextInput
           style={styles.inputPassword}
           placeholder={'Password'}
           secureTextEntry={true}
+          onChangeText={(password) => setPassword(password)}
+          value={password}
         />
         <View style={styles.checkboxContainer}>
           <CheckBox />
@@ -36,14 +53,18 @@ class SignUp extends Component {
             information.
           </Text>
         </View>
-        <TouchableOpacity style={styles.buttonSignUp} onPress={this.onPress}>
+        <TouchableOpacity
+          style={styles.buttonSignUp}
+          onPress={() => {
+            register(name, email, password);
+          }}>
           <Text style={styles.textSignUp}>Sign Up</Text>
         </TouchableOpacity>
         <Text style={styles.textForget}>Forgot your password?</Text>
       </View>
-    );
-  }
-}
+    </ScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
