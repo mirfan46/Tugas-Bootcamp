@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
     this.state = {
       user: users,
-      route: 'todo',
+      route: 'main',
       userSignInData: {
         id: '',
         first_name: '',
@@ -100,7 +100,7 @@ class App extends Component {
   render() {
     console.log(this.state.userSignInData);
     return (
-      <View>
+      <View style={{flex: 1}}>
         {this.state.route === 'main' ? (
           <Main onRouteChange={this.onRouteChange} />
         ) : null}
@@ -120,7 +120,9 @@ class App extends Component {
             update={this.update}
           />
         ) : null}
-        {this.state.route === 'todo' ? <Todo /> : null}
+        {this.state.route === 'todo' ? (
+          <Todo userSignInData={this.state.userSignInData} />
+        ) : null}
       </View>
     );
   }

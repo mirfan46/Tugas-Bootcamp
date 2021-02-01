@@ -5,12 +5,12 @@ import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 export default class Main extends React.Component {
   render() {
     return (
-      <View key={this.props.keyval} style={styles.note}>
-        <Text style={styles.noteText}>{this.props.val.date}</Text>
-        <Text style={styles.noteText}>{this.props.val.note}</Text>
+      <View style={styles.note}>
+        <Text style={styles.noteText}>{this.props.note}</Text>
+        <Text style={styles.noteText}>{this.props.user}</Text>
 
         <TouchableOpacity
-          onPress={this.props.deleteMothod}
+          // onPress={this.props.deleteMothod}
           style={styles.noteDelete}>
           <Text style={styles.noteDeleteText}>Delete</Text>
         </TouchableOpacity>

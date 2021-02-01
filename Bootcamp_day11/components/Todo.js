@@ -1,4 +1,6 @@
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
   StyleSheet,
   Text,
@@ -10,24 +12,56 @@ import {
 import Note from './Note';
 
 export default class Main extends React.Component {
+  state = {
+    noteText: '',
+    user: '',
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      noteArray: [],
-      noteText: '',
-    };
+    this.getData();
   }
+
+  // storeData = async () => {
+  //   try {
+  //     await AsyncStorage.multiSet(
+  //       ['user', this.props.userSignInData.first_name],
+  //       ['note', this.state.noteText],
+  //     );
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  addNote = async () => {
+    try {
+      this.setState({user: this.props.userSignInData.first_name});
+      await AsyncStorage.multiSet([
+        ['user', this.state.user],
+        ['note', this.state.noteText],
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  getData = async () => {
+    try {
+      const user = await AsyncStorage.getItem('user');
+      const note = await AsyncStorage.getItem('note');
+      if (user !== null) {
+        this.setState({user: user});
+      }
+      if (note !== null) {
+        this.setState({noteText: note});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render() {
-    let notes = this.state.noteArray.map((val, key) => {
-      return [
-        <Note
-          key={key}
-          keyval={key}
-          val={val}
-          deleteMothod={() => this.deleteNote(key)}
-        />,
-      ];
-    });
+    console.log(this.state.user);
 
     return (
       <ScrollView>
@@ -38,23 +72,23 @@ export default class Main extends React.Component {
           </View>
 
           {/* Start: Scrollview */}
-          <ScrollView style={styles.container}>{notes}</ScrollView>
+          <ScrollView style={styles.container}>
+            <Note user={this.state.user} note={this.state.noteText} />
+          </ScrollView>
 
           {/* Footer: Text Input */}
           <View style={styles.footer}>
             <TextInput
               style={styles.textInput}
-              onChangeText={(noteText) => this.setState({noteText})}
-              value={this.state.noteText}
+              onChangeText={(noteText) => this.setState({noteText: noteText})}
+              // value={this.state.noteText}
               placeholder="Enter To Do"
               placeholderTextColor="#e9c46a"
             />
           </View>
 
           {/* Add to do button */}
-          <TouchableOpacity
-            onPress={this.addNote.bind(this)}
-            style={styles.addButton}>
+          <TouchableOpacity onPress={this.addNote} style={styles.addButton}>
             <Text style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>
         </View>
@@ -62,28 +96,16 @@ export default class Main extends React.Component {
     );
   }
 
-  addNote() {
-    if (this.state.noteText) {
-      let d = new Date();
-      this.state.noteArray.push({
-        date: d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate(),
-        note: this.state.noteText,
-      });
-      this.setState({noteArray: this.state.noteArray});
-      this.setState({noteText: ''});
-    }
-  }
-
-  deleteNote(key) {
-    this.state.noteArray.splice(key, 1);
-    this.setState({noteArray: this.state.noteArray});
-  }
+  // deleteNote(key) {
+  //   this.state.noteArray.splice(key, 1);
+  //   this.setState({noteArray: this.state.noteArray});
+  // }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 400,
+    paddingBottom: 290,
   },
   header: {
     backgroundColor: '#264653',
