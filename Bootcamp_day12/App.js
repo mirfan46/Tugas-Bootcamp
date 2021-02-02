@@ -11,9 +11,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 class App extends Component {
   constructor(props) {
     super(props);
+    this.getLoginData();
     this.state = {
       user: users,
       route: 'main',
+      dataLogin: [],
       userSignInData: {
         id: '',
         first_name: '',
@@ -49,21 +51,41 @@ class App extends Component {
   };
 
   storeLoginData = async () => {
+    const listDataLogin = await AsyncStorage.getItem('loginData');
+    let myDataLogin = listDataLogin !== null ? JSON.parse(listDataLogin) : [];
     try {
-      await AsyncStorage.setItem('token', this.state.userSignInData.id);
+      myDataLogin.push(this.state.userSignInData);
+      await AsyncStorage.setItem('loginData', JSON.stringify(myDataLogin));
     } catch (e) {
       console.log(e);
+    } finally {
+      this.getLoginData();
+      // this.setState({route: 'profile'});
     }
   };
 
   getLoginData = async () => {
     try {
-      const loginData = await AsyncStorage.getItem('token');
+      const loginData = await AsyncStorage.getItem('loginData');
+      console.log({getLoginData: JSON.parse(loginData)});
       if (loginData !== null) {
-        this.setState({route: 'profile'});
+        this.setState({
+          route: 'profile',
+          dataLogin: JSON.parse(loginData),
+        });
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  removeLoginData = async () => {
+    try {
+      await AsyncStorage.removeItem('loginData');
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.getLoginData();
     }
   };
 
@@ -76,8 +98,11 @@ class App extends Component {
     if (cekEmail === true && cekPassword === true) {
       let dataUser = this.state.user.filter((e) => e.email === email);
       let profile = dataUser[0];
+
       this.loadUser(profile);
-      this.storeLoginData;
+      // this.state.dataLogin.push(profile);
+      // this.storeLoginData(profile);
+      // this.getLoginData(profile);
       this.onRouteChange('profile');
     } else {
       Alert.alert('login gagal');
@@ -118,10 +143,17 @@ class App extends Component {
     this.setState({user: update});
   };
 
-  render() {
-    // this.getLoginData();
+  logout = () => {
+    this.setState({route: 'main'});
+    this.removeLoginData();
+  };
 
-    console.log(this.state.route);
+  componentDidMount() {
+    this.getLoginData;
+  }
+
+  render() {
+    console.log(this.state.dataLogin);
     return (
       <View style={{flex: 1}}>
         {this.state.route === 'main' ? (
@@ -141,6 +173,7 @@ class App extends Component {
             userSignInData={this.state.userSignInData}
             onRouteChange={this.onRouteChange}
             update={this.update}
+            logout={this.logout}
           />
         ) : null}
         {this.state.route === 'todo' ? (

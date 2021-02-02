@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-const Profile = ({userSignInData, onRouteChange, update}) => {
+const Profile = ({userSignInData, onRouteChange, update, logout}) => {
   const [slogan, setSlogan] = useState('');
   const [jobs, setJobs] = useState('');
 
@@ -27,7 +27,7 @@ const Profile = ({userSignInData, onRouteChange, update}) => {
             <Text style={styles.textHeaderTodo}>Todo</Text>
           </TouchableOpacity>
           <Text style={styles.textHeaderProfile}>Profile</Text>
-          <TouchableOpacity onPress={() => onRouteChange('logout')}>
+          <TouchableOpacity onPress={() => logout()}>
             <Text style={styles.textHeaderLogout}>Logout</Text>
           </TouchableOpacity>
         </View>
