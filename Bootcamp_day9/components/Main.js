@@ -17,6 +17,16 @@ export default class Main extends React.Component {
       noteText: '',
     };
   }
+
+  storeData = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem('@storage_Key', jsonValue);
+    } catch (e) {
+      // saving error
+    }
+  };
+
   render() {
     let notes = this.state.noteArray.map((val, key) => {
       return [
@@ -64,6 +74,7 @@ export default class Main extends React.Component {
     if (this.state.noteText) {
       let d = new Date();
       this.state.noteArray.push({
+        user: 'irfan',
         date: d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate(),
         note: this.state.noteText,
       });

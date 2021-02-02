@@ -8,6 +8,7 @@ export default class Main extends React.Component {
       <View key={this.props.keyval} style={styles.note}>
         <Text style={styles.noteText}>{this.props.val.date}</Text>
         <Text style={styles.noteText}>{this.props.val.note}</Text>
+        <Text style={styles.noteText}>{this.props.val.user}</Text>
 
         <TouchableOpacity
           onPress={this.props.deleteMothod}

@@ -15,6 +15,7 @@ export default class Main extends React.Component {
   state = {
     noteText: '',
     user: '',
+    noteList: [],
   };
 
   constructor(props) {
@@ -22,46 +23,65 @@ export default class Main extends React.Component {
     this.getData();
   }
 
-  // storeData = async () => {
-  //   try {
-  //     await AsyncStorage.multiSet(
-  //       ['user', this.props.userSignInData.first_name],
-  //       ['note', this.state.noteText],
-  //     );
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
-
   addNote = async () => {
+    // const listUser = await AsyncStorage.getItem('user');
+    // let myUser = listUser !== null ? JSON.parse(listUser) : [];
+
+    const listNote = await AsyncStorage.getItem('notes');
+    let myNotes = listNote !== null ? JSON.parse(listNote) : [];
     try {
       this.setState({user: this.props.userSignInData.first_name});
-      await AsyncStorage.multiSet([
-        ['user', this.state.user],
-        ['note', this.state.noteText],
-      ]);
+      myNotes.push(this.state.noteText);
+      await AsyncStorage.setItem('notes', JSON.stringify(myNotes));
     } catch (err) {
       console.log(err);
+    } finally {
+      this.getData();
+      this.setState({noteText: ''});
     }
   };
 
   getData = async () => {
     try {
       const user = await AsyncStorage.getItem('user');
-      const note = await AsyncStorage.getItem('note');
+      const notes = await AsyncStorage.getItem('notes');
+      console.log({getDta: JSON.parse(notes)});
       if (user !== null) {
         this.setState({user: user});
       }
-      if (note !== null) {
-        this.setState({noteText: note});
+      if (notes) {
+        this.setState({noteList: JSON.parse(notes)});
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem('notes');
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this.getData();
+    }
+
+    console.log('Done.');
+  };
+
   render() {
-    console.log(this.state.user);
+    let notes = this.state.noteList.map((val, key) => {
+      // console.log(val, key);
+      return [
+        <Note
+          key={key}
+          keyval={key}
+          val={val}
+          user={this.state.user}
+          remove={this.removeValue}
+        />,
+      ];
+    });
 
     return (
       <ScrollView>
@@ -72,23 +92,23 @@ export default class Main extends React.Component {
           </View>
 
           {/* Start: Scrollview */}
-          <ScrollView style={styles.container}>
-            <Note user={this.state.user} note={this.state.noteText} />
-          </ScrollView>
+          <ScrollView style={styles.container}>{notes}</ScrollView>
 
           {/* Footer: Text Input */}
           <View style={styles.footer}>
             <TextInput
               style={styles.textInput}
               onChangeText={(noteText) => this.setState({noteText: noteText})}
-              // value={this.state.noteText}
+              value={this.state.noteText}
               placeholder="Enter To Do"
               placeholderTextColor="#e9c46a"
             />
           </View>
 
           {/* Add to do button */}
-          <TouchableOpacity onPress={this.addNote} style={styles.addButton}>
+          <TouchableOpacity
+            onPress={this.addNote.bind(this)}
+            style={styles.addButton}>
             <Text style={styles.addButtonText}>Add</Text>
           </TouchableOpacity>
         </View>
