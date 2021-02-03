@@ -8,51 +8,12 @@ import {
   CheckBox,
   Image,
   ScrollView,
-  Alert,
 } from 'react-native';
+import useForm from './useForm';
+import validate from './validateinfo';
 
 const SignUp = ({onRouteChange, register}) => {
-  const firstRender = useRef(true);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  useEffect(() => {
-    validData();
-  }, []);
-
-  const validateEmail = (email) => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
-
-  const validData = () => {
-    let finishCheck = true;
-
-    if (email === '' && password === '' && name === '') {
-      Alert.alert('name, email dan password harus diisi');
-      finishCheck = false;
-    }
-
-    if (email === '' || password === '' || name === '') {
-      Alert.alert('name, email dan password harus diisi');
-      finishCheck = false;
-    }
-
-    if (password.length < 6) {
-      Alert.alert('password minimal harus 6 karakter');
-      finishCheck = false;
-    }
-
-    if (!validateEmail(email)) {
-      Alert.alert('email tidak valid');
-      finishCheck = false;
-    }
-
-    if (finishCheck) {
-      register(name, email, password);
-    }
-  };
+  const {handleChange, handleSubmit} = useForm(validate);
 
   return (
     <ScrollView>
@@ -69,21 +30,18 @@ const SignUp = ({onRouteChange, register}) => {
         <TextInput
           style={styles.inputName}
           placeholder={'Name'}
-          onChangeText={(name) => setName(name)}
-          value={name}
+          onChange={(event) => handleChange('name', event.nativeEvent.text)}
         />
         <TextInput
           style={styles.inputEmail}
           placeholder={'Email'}
-          onChangeText={(email) => setEmail(email)}
-          value={email}
+          onChange={(event) => handleChange('email', event.nativeEvent.text)}
         />
         <TextInput
           style={styles.inputPassword}
           placeholder={'Password'}
           secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-          value={password}
+          onChange={(event) => handleChange('password', event.nativeEvent.text)}
         />
         <View style={styles.checkboxContainer}>
           <CheckBox />
@@ -92,7 +50,7 @@ const SignUp = ({onRouteChange, register}) => {
             information.
           </Text>
         </View>
-        <TouchableOpacity style={styles.buttonSignUp} onPress={validData()}>
+        <TouchableOpacity style={styles.buttonSignUp} onPress={handleSubmit}>
           <Text style={styles.textSignUp}>Sign Up</Text>
         </TouchableOpacity>
         <Text style={styles.textForget}>Forgot your password?</Text>
