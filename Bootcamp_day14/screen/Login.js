@@ -11,7 +11,7 @@ import {
 import useForm from './useForm';
 import validate from './validateinfo';
 
-const Login = ({onRouteChange}) => {
+const Login = ({onRouteChange, navigation}) => {
   const {handleChange, handleSubmit} = useForm(validate);
 
   return (
@@ -29,7 +29,9 @@ const Login = ({onRouteChange}) => {
           secureTextEntry={true}
           onChange={(event) => handleChange('password', event.nativeEvent.text)}
         />
-        <TouchableOpacity style={styles.buttonLogIn} onPress={handleSubmit}>
+        <TouchableOpacity
+          style={styles.buttonLogIn}
+          onPress={() => navigation.navigate('Profile')}>
           <Text style={styles.textLogIn}>Log In</Text>
         </TouchableOpacity>
         <Text style={styles.textForget}>Forgot your password?</Text>

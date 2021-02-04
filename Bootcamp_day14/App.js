@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import {View, Alert} from 'react-native';
-import Main from './components/Main';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
-import Profile from './components/Profile';
-import Todo from './components/Todo';
+import Main from './screen/Main';
+import Login from './screen/Login';
+import SignUp from './screen/SignUp';
+import Profile from './screen/Profile';
+import Todo from './screen/Todo';
 import users from './user.json';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import DetailPost from './screen/DetailPost';
+import Post from './screen/Post';
+
+const Stack = createStackNavigator();
 
 class App extends Component {
   constructor(props) {
@@ -89,7 +95,7 @@ class App extends Component {
     }
   };
 
-  cekLogin = (email, password) => {
+  cekLogin = (email, password, navigation) => {
     const cekEmail = this.state.user.some((user) => user.email === email);
     const cekPassword = this.state.user.some(
       (user) => user.password === password,
@@ -103,7 +109,7 @@ class App extends Component {
       // this.state.dataLogin.push(profile);
       // this.storeLoginData(profile);
       // this.getLoginData(profile);
-      this.onRouteChange('profile');
+      navigation.navigate('SignUp');
     } else {
       Alert.alert('login gagal');
     }
@@ -155,31 +161,17 @@ class App extends Component {
   render() {
     console.log(this.state.dataLogin);
     return (
-      <View style={{flex: 1}}>
-        {this.state.route === 'main' ? (
-          <Main onRouteChange={this.onRouteChange} />
-        ) : null}
-        {this.state.route === 'logout' ? (
-          <Main onRouteChange={this.onRouteChange} />
-        ) : null}
-        {this.state.route === 'login' ? (
-          <Login cekLogin={this.cekLogin} />
-        ) : null}
-        {this.state.route === 'signup' ? (
-          <SignUp register={this.register} onRouteChange={this.onRouteChange} />
-        ) : null}
-        {this.state.route === 'profile' ? (
-          <Profile
-            userSignInData={this.state.userSignInData}
-            onRouteChange={this.onRouteChange}
-            update={this.update}
-            logout={this.logout}
-          />
-        ) : null}
-        {this.state.route === 'todo' ? (
-          <Todo userSignInData={this.state.userSignInData} />
-        ) : null}
-      </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="Todo" component={Todo} />
+          <Stack.Screen name="Post" component={Post} />
+          <Stack.Screen name="DetailPost" component={DetailPost} />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 }

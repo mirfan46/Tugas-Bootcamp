@@ -12,7 +12,13 @@ import {
 import useForm from './useForm';
 import validate from './validateinfo';
 
-const Profile = ({userSignInData, onRouteChange, update, logout}) => {
+const Profile = ({
+  userSignInData,
+  onRouteChange,
+  update,
+  logout,
+  navigation,
+}) => {
   const {handleChange, handleSubmit} = useForm(validate);
 
   return (
@@ -24,11 +30,11 @@ const Profile = ({userSignInData, onRouteChange, update, logout}) => {
           zIndex: 2,
         }}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => onRouteChange('todo')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Todo')}>
             <Text style={styles.textHeaderTodo}>Todo</Text>
           </TouchableOpacity>
           <Text style={styles.textHeaderProfile}>Profile</Text>
-          <TouchableOpacity onPress={() => logout()}>
+          <TouchableOpacity onPress={() => navigation.navigate('Main')}>
             <Text style={styles.textHeaderLogout}>Logout</Text>
           </TouchableOpacity>
         </View>
@@ -39,15 +45,15 @@ const Profile = ({userSignInData, onRouteChange, update, logout}) => {
             height: 158,
             borderRadius: 100,
           }}
-          source={{uri: `https://robohash.org/${userSignInData.photo}`}}
+          source={{uri: `https://robohash.org/sfs`}}
         />
       </View>
       <View style={styles.container}>
         <Text style={{fontSize: 30, fontWeight: 'bold', marginBottom: 8}}>
-          {userSignInData.first_name} {userSignInData.last_name}
+          {/* {userSignInData.first_name} {userSignInData.last_name} */}
         </Text>
         <Text style={{fontWeight: 'bold', fontSize: 16, marginBottom: 16}}>
-          {userSignInData.gender}
+          {/* {userSignInData.gender} */}
         </Text>
         <View style={{marginBottom: 34}}>
           <Text style={{color: '#666666'}}>Slogan</Text>

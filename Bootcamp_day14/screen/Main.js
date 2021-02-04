@@ -8,18 +8,23 @@ import {
   ScrollView,
 } from 'react-native';
 
-const Main = ({onRouteChange}) => {
+const Main = ({navigation}) => {
   return (
     <ScrollView>
       <View style={styles.container}>
         <Image source={require('../logo.png')} />
         <View style={styles.menu}>
-          <TouchableOpacity onPress={() => onRouteChange('login')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={{marginRight: 100, fontSize: 18, color: '#FFFFFF'}}>
               Login
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => onRouteChange('signup')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Post')}>
+            <Text style={{marginRight: 100, fontSize: 18, color: '#FFFFFF'}}>
+              Post
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
             <Text style={{fontSize: 18, color: '#FFFFFF'}}>Register</Text>
           </TouchableOpacity>
         </View>

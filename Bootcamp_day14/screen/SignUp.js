@@ -12,7 +12,7 @@ import {
 import useForm from './useForm';
 import validate from './validateinfo';
 
-const SignUp = ({onRouteChange, register}) => {
+const SignUp = ({onRouteChange, register, navigation}) => {
   const {handleChange, handleSubmit} = useForm(validate);
 
   return (
@@ -50,7 +50,9 @@ const SignUp = ({onRouteChange, register}) => {
             information.
           </Text>
         </View>
-        <TouchableOpacity style={styles.buttonSignUp} onPress={handleSubmit}>
+        <TouchableOpacity
+          style={styles.buttonSignUp}
+          onPress={() => navigation.navigate('Profile')}>
           <Text style={styles.textSignUp}>Sign Up</Text>
         </TouchableOpacity>
         <Text style={styles.textForget}>Forgot your password?</Text>
