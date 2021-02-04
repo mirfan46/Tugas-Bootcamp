@@ -9,10 +9,11 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import useForm from './useForm';
+import validate from './validateinfo';
 
 const Profile = ({userSignInData, onRouteChange, update, logout}) => {
-  const [slogan, setSlogan] = useState('');
-  const [jobs, setJobs] = useState('');
+  const {handleChange, handleSubmit} = useForm(validate);
 
   return (
     <ScrollView>
@@ -53,8 +54,7 @@ const Profile = ({userSignInData, onRouteChange, update, logout}) => {
           <TextInput
             style={styles.inputSlogan}
             placeholder={'Slogan'}
-            onChangeText={(slogan) => setSlogan(slogan)}
-            value={slogan}
+            onChange={(event) => handleChange('slogan', event.nativeEvent.text)}
           />
         </View>
         <View>
@@ -62,16 +62,11 @@ const Profile = ({userSignInData, onRouteChange, update, logout}) => {
           <TextInput
             style={styles.inputJobs}
             placeholder={'Jobs'}
-            onChangeText={(jobs) => setJobs(jobs)}
-            value={jobs}
+            onChange={(event) => handleChange('jobs', event.nativeEvent.text)}
           />
         </View>
         <View style={{marginRight: 215}}>
-          <TouchableOpacity
-            style={styles.buttonUpdate}
-            onPress={() => {
-              update(slogan, jobs);
-            }}>
+          <TouchableOpacity style={styles.buttonUpdate} onPress={handleSubmit}>
             <Text style={styles.textUpdate}>Update</Text>
           </TouchableOpacity>
         </View>

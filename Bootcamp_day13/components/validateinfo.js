@@ -19,16 +19,16 @@ export default function validateInfo(values) {
     Alert.alert('Password needs to be 6 characters or more');
   }
 
-  //   if (!values.slogan) {
-  //     Alert.alert('Slogan is required');
-  //   }
+  if (!values.slogan) {
+    Alert.alert('Slogan is required');
+  }
 
-  //   if (!values.jobs) {
-  //     Alert.alert('Jobs is required');
-  //   }
+  if (!values.jobs) {
+    Alert.alert('Jobs is required');
+  }
 
-  //   if (!values.note) {
-  //     Alert.alert('Note is required');
-  //   }
+  if (!values.note) {
+    Alert.alert('Note is required');
+  }
   return errors;
 }
