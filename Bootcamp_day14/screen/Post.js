@@ -3,14 +3,14 @@ import {Button, FlatList, Text, View} from 'react-native';
 import axios from 'axios';
 
 const Post = ({navigation}) => {
-  const [setPost, setPost] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
       .get(`https://jsonplaceholder.typicode.com/posts/`)
       .then((response) => {
-        const post = response.data;
-        setPost(post);
+        const data = response.data;
+        setData(data);
       });
   }, []);
 
