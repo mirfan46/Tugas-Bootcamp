@@ -1,13 +1,13 @@
 import {useState, useEffect} from 'react';
 
-const useForm = (validate) => {
+const useForm = (callback, validate) => {
   const [values, setValues] = useState({
     name: '',
     email: '',
     password: '',
   });
   const [errors, setErrors] = useState({});
-  // const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleChange = (name, value) => {
     setValues({
@@ -22,14 +22,14 @@ const useForm = (validate) => {
     e.preventDefault();
 
     setErrors(validate(values));
-    // setIsLogin(true);
+    setIsLogin(true);
   };
 
-  // useEffect(() => {
-  //   if (Object.keys(errors).length === 0 && isLogin) {
-  //     callback();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (Object.keys(errors).length === 0 && isLogin) {
+      callback();
+    }
+  }, []);
 
   return {handleChange, values, handleSubmit, errors};
 };

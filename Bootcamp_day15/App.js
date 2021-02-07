@@ -26,9 +26,9 @@ const App = () => {
 
     if (cekEmail === true && cekPassword === true) {
       setIsLogin(true);
-      Alert.alert('login sukses');
+      // Alert.alert('login sukses');
     } else {
-      Alert.alert('login gagal');
+      // Alert.alert('login gagal');
     }
   };
 
