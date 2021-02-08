@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react';
+import {Alert} from 'react-native';
 
 const useForm = (callback, validate) => {
   const [values, setValues] = useState({
-    name: '',
+    name: 'irfan',
     email: '',
     password: '',
   });
@@ -14,25 +15,31 @@ const useForm = (callback, validate) => {
       ...values,
       [name]: value,
     });
-    console.log('name:', name);
-    console.log('value:', value);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
+    const v = validate(values);
+    console.log({v, values});
+    if (Object.keys(v).length == 0) {
+      callback(values.email, values.password);
+      setIsLogin(false);
+    } else {
+      setErrors(v);
+      setIsLogin(true);
+    }
+    // console.log({v});
 
-    setErrors(validate(values));
-    setIsLogin(true);
-    console.log(errors);
+    // console.log(errors);
   };
 
-  useEffect(() => {
-    if (Object.keys(errors).length === 0 && isLogin) {
-      callback();
-    }
-  }, [isLogin]);
+  // useEffect(() => {
+  //   if (Object.keys(errors).length === 0 && isLogin) {
+  //     // callback();
+  //   }
+  // }, [isLogin]);
 
-  return {handleChange, values, handleSubmit, errors};
+  return [handleChange, values, handleSubmit, errors];
 };
 
 export default useForm;
