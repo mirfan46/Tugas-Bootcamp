@@ -6,27 +6,38 @@ import UseForm from '../../components/Hooks/UseForm';
 import validate from '../../components/Hooks/ValidateInfo';
 
 const Login = ({route}) => {
+  const {
+    params: {CheckLogin},
+  } = route;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {handleChange, handleSubmit, values, errors} = UseForm(
-    () => route.params.CekLogin(email, password),
+  const [handleChange, values, handleSubmit, errors] = UseForm(
+    CheckLogin,
     validate,
   );
+
+  console.log({login_screen: {values, handleSubmit}});
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Input
         placeHolder="Email"
-        onChangeText={(email) => setEmail(email)}
-        value={email}
-        onChange={() => handleChange('email', email)}
+        onChangeText={(email) => {
+          handleChange('name', email);
+          handleChange('email', email);
+        }}
+        value={values.email}
+        // onChange={() => {
+        //   handleChange('name', email);
+        //   handleChange('email', email);
+        // }}
       />
       <>{errors.email && <Text style={{color: 'red'}}>{errors.email}</Text>}</>
       <InputPassword
         placeHolder="Password"
-        onChangeText={(password) => setPassword(password)}
-        value={password}
-        onChange={() => handleChange('password', password)}
+        onChangeText={(password) => handleChange('password', password)}
+        value={values.password}
+        // onChange={() => handleChange('password', password)}
         scureText={true}
       />
       <>
@@ -34,7 +45,7 @@ const Login = ({route}) => {
           <Text style={{color: 'red'}}>{errors.password}</Text>
         )}
       </>
-      <Button width={312} text="Log In" onPress={handleSubmit} />
+      <Button width={312} text="Log In" onPress={() => handleSubmit()} />
     </View>
   );
 };

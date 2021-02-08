@@ -21,6 +21,7 @@ const App = () => {
   const [users, setUsers] = useState(usersData);
 
   const cekLogin = (inputEmail, inputPassword) => {
+    console.log({cekLogin: {inputEmail, inputPassword}});
     const cekEmail = users.some((user) => user.email === inputEmail);
     const cekPassword = users.some((user) => user.password === inputPassword);
 
@@ -49,7 +50,7 @@ const App = () => {
     setUsers(dataUser);
   };
 
-  console.log(users);
+  // console.log(users);
   return (
     <NavigationContainer>
       <Stack.Navigator>

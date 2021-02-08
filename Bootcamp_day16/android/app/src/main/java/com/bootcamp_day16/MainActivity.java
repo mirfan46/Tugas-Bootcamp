@@ -1,4 +1,4 @@
-package com.bootcamp_day14;
+package com.bootcamp_day16;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Bootcamp_day14";
+    return "Bootcamp_day16";
   }
 }

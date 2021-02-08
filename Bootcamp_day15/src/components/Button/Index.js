@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {TouchableOpacity, StyleSheet, Text} from 'react-native';
 
 const button = (props) => {
+  // console.log({props});
   return (
     <>
       <TouchableOpacity
