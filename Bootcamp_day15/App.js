@@ -47,7 +47,6 @@ const App = () => {
       password: password,
     });
     setUsers(dataUser);
-    Alert.alert('Register berhasil, silahkan login');
   };
 
   console.log(users);

@@ -19,14 +19,14 @@ const Login = ({route}) => {
         placeHolder="Email"
         onChangeText={(email) => setEmail(email)}
         value={email}
-        onChange={(event) => handleChange('email', email)}
+        onChange={() => handleChange('email', email)}
       />
       <>{errors.email && <Text style={{color: 'red'}}>{errors.email}</Text>}</>
       <InputPassword
         placeHolder="Password"
         onChangeText={(password) => setPassword(password)}
         value={password}
-        onChange={(event) => handleChange('password', password)}
+        onChange={() => handleChange('password', password)}
         scureText={true}
       />
       <>

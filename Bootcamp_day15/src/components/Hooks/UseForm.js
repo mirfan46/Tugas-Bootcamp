@@ -14,8 +14,8 @@ const useForm = (callback, validate) => {
       ...values,
       [name]: value,
     });
-    console.log('name:', name);
-    console.log('value:', value);
+    // console.log('name:', name);
+    // console.log('value:', value);
   };
 
   const handleSubmit = (e) => {
