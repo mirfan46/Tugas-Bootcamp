@@ -5,19 +5,19 @@ import useFetcher from '../../components/Hooks/useFetcher';
 function Feeds({navigation}) {
   const [getData] = new useFetcher();
   const [listPosting, setListPosting] = useState('');
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     prosesDataPosting();
-  });
+  }, []);
 
   const prosesDataPosting = async () => {
     let dataPosting = await getData(
       'https://jsonplaceholder.typicode.com/posts',
     );
-    // console.log(dataPosting);
+    console.log(dataPosting);
     setListPosting(dataPosting);
-    setLoading(true);
+    setLoading(false);
   };
 
   const Item = ({title, body, id}) => (
@@ -32,7 +32,7 @@ function Feeds({navigation}) {
   );
 
   const renderItem = ({item}) => {
-    <Item title={item.title} body={item.body} id={item.id} />;
+    return <Item title={item.title} body={item.body} id={item.id} />;
   };
 
   return (

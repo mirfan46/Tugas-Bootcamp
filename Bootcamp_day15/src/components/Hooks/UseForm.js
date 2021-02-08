@@ -14,8 +14,8 @@ const useForm = (callback, validate) => {
       ...values,
       [name]: value,
     });
-    // console.log('name:', name);
-    // console.log('value:', value);
+    console.log('name:', name);
+    console.log('value:', value);
   };
 
   const handleSubmit = (e) => {
@@ -23,13 +23,14 @@ const useForm = (callback, validate) => {
 
     setErrors(validate(values));
     setIsLogin(true);
+    console.log(errors);
   };
 
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isLogin) {
       callback();
     }
-  }, []);
+  }, [isLogin]);
 
   return {handleChange, values, handleSubmit, errors};
 };

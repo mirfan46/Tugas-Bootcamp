@@ -9,7 +9,7 @@ const Login = ({route}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {handleChange, handleSubmit, values, errors} = UseForm(
-    route.params.CekLogin(email, password),
+    () => route.params.CekLogin(email, password),
     validate,
   );
 
