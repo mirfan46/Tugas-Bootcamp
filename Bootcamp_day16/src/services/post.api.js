@@ -1,4 +1,4 @@
-import instance from './base';
+import instance from './api';
 
 const getPosts = async () => {
   const data = await instance.get('posts');

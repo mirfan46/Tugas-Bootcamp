@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {View, Text} from 'react-native';
 import MasterLogin from '../../context/LoginContext';
 import {Input, InputPassword, Button} from '../../components/index';
-import {useContext} from 'react/cjs/react.development';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
