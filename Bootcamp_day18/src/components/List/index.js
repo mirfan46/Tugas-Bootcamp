@@ -16,6 +16,7 @@ const List = () => {
   console.log({loading, data});
   return (
     <View>
+      <Text>List</Text>
       {loading ? (
         <ActivityIndicator color="red" size="large" />
       ) : (
@@ -34,7 +35,6 @@ const List = () => {
           />
         </>
       )}
-      <Text>List</Text>
     </View>
   );
 };
