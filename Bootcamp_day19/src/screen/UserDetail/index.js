@@ -1,10 +1,45 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import {useQuery} from '@apollo/client';
+import React, {useState, useEffect} from 'react';
+import {View, Text, ActivityIndicator, FlatList} from 'react-native';
+import {GET_USER_DETAIL} from '../../service/article';
 
-const UserDetail = () => {
+const UserDetail = ({navigation, route}) => {
+  const [idUser, setIdUser] = useState('');
+  useEffect(() => {
+    setIdUser(route.params.userId);
+  }, []);
+
+  const {loading, data, refetch} = useQuery(GET_USER_DETAIL, {
+    variables: {id: idUser},
+  });
+
+  console.log(data);
+
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>User Detail</Text>
+    <View>
+      {loading ? (
+        <ActivityIndicator color="red" size="large" />
+      ) : (
+        <>
+          <View>
+            <Text>User Profile</Text>
+            <Text>Name: {data.author.name}</Text>
+            <Text>Email: {data.author.email}</Text>
+          </View>
+          <View>
+            <Text>Article List :</Text>
+            <FlatList
+              data={data.author.posts}
+              renderItem={({item}) => (
+                <View>
+                  <Text>{item.title}</Text>
+                  <Text>{item.content}</Text>
+                </View>
+              )}
+            />
+          </View>
+        </>
+      )}
     </View>
   );
 };

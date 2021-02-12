@@ -19,3 +19,33 @@ export const GET_POST_LIST = gql`
     }
   }
 `;
+
+export const GET_USER_DETAIL = gql`
+  query($id: Int!) {
+    author: User(id: $id) {
+      name: username
+      email
+      posts {
+        id
+        title
+        content
+      }
+      addresses {
+        address
+      }
+    }
+  }
+`;
+
+export const GET_POST_DETAIL = gql`
+  query($id: Int!) {
+    Post(id: $id) {
+      title
+      content
+      user {
+        author: username
+        email
+      }
+    }
+  }
+`;
