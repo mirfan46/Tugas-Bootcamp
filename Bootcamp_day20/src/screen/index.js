@@ -1,0 +1,10 @@
+export {default as HomeScreen} from './Home/index';
+export {default as Intro1Screen} from './Intro1/index';
+export {default as Intro2Screen} from './Intro2/index';
+export {default as Intro3Screen} from './Intro3/index';
+export {default as LoginScreen} from './LogIn/index';
+export {default as PostDetailScreen} from './PostDetail/index';
+export {default as ProfileScreen} from './Profile/index';
+export {default as ResultsScreen} from './Results/index';
+export {default as SignUpScreen} from './SignUp/index';
+export {default as SplashScreen} from './Splash/index';
