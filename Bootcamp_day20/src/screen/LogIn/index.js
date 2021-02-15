@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {InputPassword, InputText, Button} from '../../components/';
+import MasterAuthentication from '../../context/AuthContext';
 
 const Login = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const AuthenticationMaster = useContext(MasterAuthentication);
+  // console.log(AuthenticationMaster);
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -27,13 +33,22 @@ const Login = ({navigation}) => {
           />
           <Image source={require('../../assets/google.png')} />
         </View>
-        <InputText placeholder="Email" />
-        <InputPassword placeholder="Password" secureTextEntry={true} />
+        <InputText
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+        />
+        <InputPassword
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          secureTextEntry={true}
+        />
         <Text style={styles.forgetPassText}>Forget Password?</Text>
         <Button
           text="Log in"
           marginBottom={16}
-          onPress={() => navigation.navigate('MainScreen')}
+          onPress={() => AuthenticationMaster.login(email, password)}
         />
         <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <Text style={styles.signUpText}>Sign Up</Text>

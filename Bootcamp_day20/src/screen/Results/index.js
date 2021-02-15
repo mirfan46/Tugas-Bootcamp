@@ -4,28 +4,47 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  ScrollView,
   StyleSheet,
+  FlatList,
 } from 'react-native';
+import {useQuery} from '@apollo/client';
 import {InputSearch, CourseCard} from '../../components/';
+import {GET_ALL_POSTS} from '../../service/post';
 
-const Result = () => {
+const Results = ({navigation}) => {
+  const {loading, data, refetch} = useQuery(GET_ALL_POSTS);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity>
-            <Image source={require('../../assets/prev.png')} />
-          </TouchableOpacity>
-          <InputSearch width={315} placeholder="Search" />
-        </View>
-        <View style={styles.result}>
-          <Text style={styles.resultText}>0 Results</Text>
-        </View>
-        <CourseCard />
-        <CourseCard />
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <Image source={require('../../assets/prev.png')} />
+        </TouchableOpacity>
+        <InputSearch width={315} placeholder="Search" />
       </View>
-    </ScrollView>
+      <View style={styles.result}>
+        <Text style={styles.resultText}>0 Results</Text>
+      </View>
+      {loading ? (
+        <ActivityIndicator color="red" size="large" />
+      ) : (
+        <>
+          <FlatList
+            data={data.getAllPosts}
+            renderItem={({item}) => (
+              <CourseCard
+                onPress={() =>
+                  navigation.navigate('PostDetail', {postId: item.id})
+                }
+                title={item.title}
+                author={item.author.name}
+              />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </>
+      )}
+    </View>
   );
 };
 
@@ -54,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Result;
+export default Results;

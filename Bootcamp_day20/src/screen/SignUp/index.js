@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {InputPassword, InputText, Button} from '../../components/';
+import MasterAuth from '../../context/AuthContext';
 
 const SignUp = ({navigation}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const AuthMaster = useContext(MasterAuth);
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -21,10 +28,27 @@ const SignUp = ({navigation}) => {
         <Image source={require('../../assets/signup.png')} />
         <Text style={styles.signUpText}>Sign Up</Text>
         <Text style={styles.createAccountText}>Create your account</Text>
-        <InputText placeholder="Name" />
-        <InputText placeholder="E-mail" />
-        <InputPassword placeholder="Password" secureTextEntry={true} />
-        <Button text="Sign up" marginBottom={16} />
+        <InputText
+          placeholder="Name"
+          onChangeText={(text) => setName(text)}
+          value={name}
+        />
+        <InputText
+          placeholder="E-mail"
+          onChangeText={(text) => setEmail(text)}
+          value={email}
+        />
+        <InputPassword
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          value={password}
+          secureTextEntry={true}
+        />
+        <Button
+          text="Sign up"
+          marginBottom={16}
+          onPress={() => AuthMaster.signup(name, email, password)}
+        />
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.logInText}>Log in</Text>
         </TouchableOpacity>

@@ -1,32 +1,66 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet, ScrollView} from 'react-native';
+import React, {useContext} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+  FlatList,
+} from 'react-native';
+import {useQuery} from '@apollo/client';
 import {InputSearch, CategoryButton, CourseCard} from '../../components';
+import {GET_ALL_POSTS} from '../../service/post';
+import MasterPost from '../../context/PostContext';
 
-const Home = () => {
+const Home = ({props, navigation}) => {
+  const {loading, data, refetch} = useQuery(GET_ALL_POSTS);
+  const PostMaster = useContext(MasterPost);
+  console.log(PostMaster);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.helloText}>Hello,</Text>
-            <Text style={styles.userText}>Juan Antonieta</Text>
-          </View>
-          <Image source={require('../../assets/notification.png')} />
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.helloText}>Hello,</Text>
+          <Text style={styles.userText}>Juan Antonieta</Text>
         </View>
-        <View style={styles.search}>
-          <InputSearch placeholder="Search" width={380} />
-        </View>
-        <View style={styles.category}>
-          <Text style={styles.categoryText}>Category:</Text>
-          <CategoryButton width={50} text="#CSS" />
-          <CategoryButton width={50} text="#UX" />
-          <CategoryButton width={50} text="#Swift" />
-          <CategoryButton width={50} text="#UI" />
-        </View>
-        <CourseCard />
-        <CourseCard />
+        <Image source={require('../../assets/notification.png')} />
       </View>
-    </ScrollView>
+      <View style={styles.search}>
+        <InputSearch
+          placeholder="Search"
+          width={380}
+          onPress={() => navigation.navigate('Results')}
+        />
+      </View>
+      <View style={styles.category}>
+        <Text style={styles.categoryText}>Category:</Text>
+        <CategoryButton width={50} text="#CSS" />
+        <CategoryButton width={50} text="#UX" />
+        <CategoryButton width={50} text="#Swift" />
+        <CategoryButton width={50} text="#UI" />
+      </View>
+      {loading ? (
+        <ActivityIndicator color="red" size="large" />
+      ) : (
+        <>
+          <FlatList
+            data={data.getAllPosts}
+            renderItem={({item}) => (
+              <CourseCard
+                onPress={() =>
+                  navigation.navigate('PostDetail', {postId: item.id})
+                }
+                title={item.title}
+                author={item.author.name}
+              />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        </>
+      )}
+    </View>
   );
 };
 

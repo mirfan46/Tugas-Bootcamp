@@ -1,34 +1,57 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {useQuery} from '@apollo/client';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {GET_SINGLE_POST} from '../../service/post';
 
-const PostDetail = () => {
+const PostDetail = ({route, navigation}) => {
+  const [idPost, setIdPost] = useState('');
+
+  useEffect(() => {
+    setIdPost(route.params.postId);
+  }, []);
+
+  const {loading, data, refetch} = useQuery(GET_SINGLE_POST, {
+    variables: {id: idPost},
+  });
+
+  console.log(data);
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require('../../assets/prev.png')} />
-        <Text style={styles.postTitleText}>Post Title</Text>
-      </View>
-      <View style={styles.author}>
-        <Text style={styles.authorText}>Author: Husen</Text>
-        <Text style={styles.dateText}>20 Feb 2020</Text>
-      </View>
-      <View style={styles.postImage}>
-        <Image source={require('../../assets/post.png')} />
-      </View>
-      <View style={styles.postContent}>
-        <Text style={styles.textContent}>Introduction</Text>
-        <Text style={styles.textParagraph}>
-          You can launch a new career in web develop- ment today by learning
-          HTML & CSS. You don't need a computer science degree or expensive
-          software. All you need is a computer, a bit of time, a lot of
-          determination, and a teacher you trust. Once the form data has been
-          validated on the client-side, it is okay to submit the form. And,
-          since we covered validation in the previous article, we're ready to
-          submit! This article looks at what happens when a user submits a form
-          — where does the data go, and how do we handle it when it gets there?
-          We also look at some of the security concerns.
-        </Text>
-      </View>
+      {loading ? (
+        <ActivityIndicator color="red" size="large" />
+      ) : (
+        <>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <Image source={require('../../assets/prev.png')} />
+            </TouchableOpacity>
+            <Text style={styles.postTitleText}>{data.getSinglePost.title}</Text>
+          </View>
+          <View style={styles.author}>
+            <Text style={styles.authorText}>
+              Author: {data.getSinglePost.author.name}
+            </Text>
+            <Text style={styles.dateText}>{data.getSinglePost.createdAt}</Text>
+          </View>
+          <View style={styles.postImage}>
+            <Image source={require('../../assets/post.png')} />
+          </View>
+          <View style={styles.postContent}>
+            <Text style={styles.textContent}>{data.getSinglePost.title}</Text>
+            <Text style={styles.textParagraph}>
+              {data.getSinglePost.content}
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -40,7 +63,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     margin: 16,
   },
@@ -65,7 +88,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 24,
     color: '#3C3A36',
-    marginRight: 140,
+    marginLeft: 8,
   },
   authorText: {
     fontStyle: 'normal',

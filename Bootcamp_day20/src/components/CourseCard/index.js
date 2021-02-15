@@ -7,14 +7,14 @@ const CourseCard = (props) => {
       <View style={styles.imageCard}>
         <Image source={require('../../assets/CoolKidsDiscussion.png')} />
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onPress}>
         <View style={styles.textCard}>
           <Text style={{fontStyle: 'normal', fontWeight: '500', fontSize: 24}}>
-            Title
+            {props.title}
           </Text>
           <Text
             style={{fontStyle: 'normal', fontWeight: 'normal', fontSize: 14}}>
-            Athour
+            {props.author}
           </Text>
         </View>
       </TouchableOpacity>

@@ -8,3 +8,4 @@ export {default as ProfileScreen} from './Profile/index';
 export {default as ResultsScreen} from './Results/index';
 export {default as SignUpScreen} from './SignUp/index';
 export {default as SplashScreen} from './Splash/index';
+export {default as LogoutScreen} from './Logout/index';

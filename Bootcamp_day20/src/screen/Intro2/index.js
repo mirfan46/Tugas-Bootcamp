@@ -6,7 +6,7 @@ const Intro2 = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.skipWrap}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.textSkip}>Skip</Text>
         </TouchableOpacity>
       </View>
