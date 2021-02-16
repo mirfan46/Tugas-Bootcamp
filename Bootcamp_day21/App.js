@@ -8,11 +8,13 @@ import {useSelector} from 'react-redux';
 import {Provider} from 'react-redux';
 import {LoginScreen, TodoScreen} from './src/screen';
 import loginReducer from './src/Store/reducers/login';
+import todoReducer from './src/Store/reducers/todo';
 
 const Stack = createStackNavigator();
 
 const rootReducer = combineReducers({
   login: loginReducer,
+  todo: todoReducer,
 });
 
 const store = createStore(rootReducer);
