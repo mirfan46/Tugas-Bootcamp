@@ -3,27 +3,39 @@ import {Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useMutation} from '@apollo/client';
 import {LOGIN, SIGNUP} from '../service/user';
+import {MyNavigate} from '../helper/navigator';
 
 const MasterAuth = createContext();
 
 const AuthProvider = ({children, navigation}) => {
   const [isSignIn, setIsSignIn] = useState(false);
+  const [dataLogin, setDataLogin] = useState({});
+  const [isCheck, setIfCheck] = useState(true);
   const loginMutation = useMutation(LOGIN);
   const signUpMutation = useMutation(SIGNUP);
 
   useEffect(() => {
-    checkLoginStatus();
+    console.log(isSignIn);
+    setTimeout(() => {
+      checkLoginStatus();
+    }, 3000);
   }, []);
 
   const checkLoginStatus = async () => {
+    let tok = null;
+    let ld = null;
     try {
-      const token = await AsyncStorage.getItem('Token');
-      const loginData = await AsyncStorage.getItem('LoginData');
-      if (token !== null && loginData !== loginData) {
-        setIsSignIn(true);
-      }
+      tok = await AsyncStorage.getItem('Token');
+      ld = await AsyncStorage.getItem('LoginData');
     } catch (e) {
       console.log(e);
+    } finally {
+      if (tok !== null && ld !== null) {
+        const user = JSON.parse(ld);
+        setDataLogin(user);
+        setIsSignIn(true);
+      }
+      setIfCheck(false);
     }
   };
 
@@ -43,6 +55,7 @@ const AuthProvider = ({children, navigation}) => {
         Alert.alert('Login Success');
         await AsyncStorage.setItem('Token', data.login.token);
         await AsyncStorage.setItem('LoginData', JSON.stringify(data.login));
+        setDataLogin(data.login);
         setIsSignIn(true);
       }
     } catch (error) {
@@ -73,7 +86,6 @@ const AuthProvider = ({children, navigation}) => {
     } catch (error) {
       console.log(error);
     } finally {
-      () => navigation.navigate('Login');
       Alert.alert('Register Success, Please try login');
     }
   };
@@ -83,6 +95,8 @@ const AuthProvider = ({children, navigation}) => {
     login,
     signup,
     logout,
+    dataLogin,
+    isCheck,
   };
 
   return <MasterAuth.Provider value={allData}>{children}</MasterAuth.Provider>;

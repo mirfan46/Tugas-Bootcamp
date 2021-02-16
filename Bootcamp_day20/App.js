@@ -37,31 +37,76 @@ const MainScreen = () => {
 
 const App = () => {
   const AuthenticationMaster = useContext(MasterAuthentication);
-  const {isSignIn} = AuthenticationMaster;
+  const {isSignIn, isCheck} = AuthenticationMaster;
+
+  const renderScreen = () => {
+    if (isCheck) {
+      return (
+        <Stack.Screen
+          name="Splash"
+          component={SplashScreen}
+          options={{headerShown: false}}
+          initialParams={{isSignIn}}
+        />
+      );
+    } else {
+      if (isSignIn === false) {
+        return (
+          <>
+            <Stack.Screen
+              name="Intro1"
+              component={Intro1Screen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Intro2"
+              component={Intro2Screen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Intro3"
+              component={Intro3Screen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUpScreen}
+              options={{headerShown: false}}
+            />
+          </>
+        );
+      } else {
+        return (
+          <>
+            <Stack.Screen
+              name="MainScreen"
+              component={MainScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="PostDetail"
+              component={PostDetailScreen}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Results"
+              component={ResultsScreen}
+              options={{headerShown: false}}
+            />
+          </>
+        );
+      }
+    }
+  };
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        {isSignIn === false ? (
-          <>
-            {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
-            <Stack.Screen name="Intro1" component={Intro1Screen} />
-            <Stack.Screen name="Intro2" component={Intro2Screen} />
-            <Stack.Screen name="Intro3" component={Intro3Screen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="SignUp" component={SignUpScreen} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="MainScreen" component={MainScreen} />
-            <Stack.Screen name="PostDetail" component={PostDetailScreen} />
-            <Stack.Screen name="Results" component={ResultsScreen} />
-          </>
-        )}
-      </Stack.Navigator>
+      <Stack.Navigator>{renderScreen()}</Stack.Navigator>
     </NavigationContainer>
   );
 };

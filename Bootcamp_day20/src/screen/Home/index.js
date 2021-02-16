@@ -4,26 +4,23 @@ import {
   Text,
   Image,
   StyleSheet,
-  ScrollView,
   ActivityIndicator,
   FlatList,
 } from 'react-native';
-import {useQuery} from '@apollo/client';
 import {InputSearch, CategoryButton, CourseCard} from '../../components';
-import {GET_ALL_POSTS} from '../../service/post';
-import MasterPost from '../../context/PostContext';
+import MasterPost, {PostProvider} from '../../context/PostContext';
+import MasterAuth from '../../context/AuthContext';
 
 const Home = ({props, navigation}) => {
-  const {loading, data, refetch} = useQuery(GET_ALL_POSTS);
-  const PostMaster = useContext(MasterPost);
-  console.log(PostMaster);
+  const {dataLogin} = useContext(MasterAuth);
+  const {loadingAllPost, dataAllPost} = useContext(MasterPost);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
           <Text style={styles.helloText}>Hello,</Text>
-          <Text style={styles.userText}>Juan Antonieta</Text>
+          <Text style={styles.userText}>{dataLogin.name}</Text>
         </View>
         <Image source={require('../../assets/notification.png')} />
       </View>
@@ -41,12 +38,12 @@ const Home = ({props, navigation}) => {
         <CategoryButton width={50} text="#Swift" />
         <CategoryButton width={50} text="#UI" />
       </View>
-      {loading ? (
+      {loadingAllPost ? (
         <ActivityIndicator color="red" size="large" />
       ) : (
         <>
           <FlatList
-            data={data.getAllPosts}
+            data={dataAllPost.getAllPosts}
             renderItem={({item}) => (
               <CourseCard
                 onPress={() =>
@@ -63,6 +60,12 @@ const Home = ({props, navigation}) => {
     </View>
   );
 };
+
+export default () => (
+  <PostProvider>
+    <Home />
+  </PostProvider>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -107,5 +110,3 @@ const styles = StyleSheet.create({
     color: '#3C3A36',
   },
 });
-
-export default Home;
