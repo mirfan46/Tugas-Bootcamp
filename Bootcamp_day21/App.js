@@ -1,21 +1,47 @@
 // In App.js in a new project
 
 import * as React from 'react';
-import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {LoginScreen} from './src/screen';
+import {createStore, combineReducers} from 'redux';
+import {useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
+import {LoginScreen, TodoScreen} from './src/screen';
+import loginReducer from './src/Store/reducers/login';
 
 const Stack = createStackNavigator();
 
+const rootReducer = combineReducers({
+  login: loginReducer,
+});
+
+const store = createStore(rootReducer);
+
 function App() {
+  const isLogin = useSelector((state) => state.login.isSignIn);
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen} />
+        {isLogin === false ? (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Todo" component={TodoScreen} />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default App;
+const Main = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+
+export default Main;
