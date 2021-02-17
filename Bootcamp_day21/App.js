@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createStore, combineReducers} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {useSelector} from 'react-redux';
 import {Provider} from 'react-redux';
 import {LoginScreen, TodoScreen} from './src/screen';
@@ -12,12 +12,17 @@ import todoReducer from './src/Store/reducers/todo';
 
 const Stack = createStackNavigator();
 
+const logger = (state) => (next) => (action) => {
+  console.log(`Memanggil ${action.type}`);
+  return next(action);
+};
+
 const rootReducer = combineReducers({
   login: loginReducer,
   todo: todoReducer,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(logger));
 
 function App() {
   const isLogin = useSelector((state) => state.login.isSignIn);
