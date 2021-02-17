@@ -5,8 +5,9 @@ import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider, useSelector} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 import {LoginScreen, ProductsScreen} from './src/screen';
-import store from './src/fitures';
+import {store, persistor} from './src/fitures';
 const Stack = createStackNavigator();
 
 function App() {
@@ -31,7 +32,9 @@ function App() {
 const Main = () => {
   return (
     <Provider store={store}>
-      <App />
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   );
 };
