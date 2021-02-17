@@ -4,9 +4,11 @@ import {persistReducer, persistStore} from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 
 import LoginReducer from './Login/reducer';
+import ProductsReducer from './Products/reducer';
 
 const rootReducer = combineReducers({
   login: LoginReducer,
+  products: ProductsReducer,
 });
 
 const persistConfig = {
